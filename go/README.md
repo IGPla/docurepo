@@ -1,0 +1,918 @@
+# Go lang
+
+### Base doc: https://golang.org
+### Program structure
+
+```
+package main
+
+import "fmt"
+
+func main() {
+     fmt.Printf("hello world \n")
+}
+```
+
+### Only capital variables will be exported in a given package
+### Single quotes -> rune (char)
+### Double quotes -> string
+### Start point for a project is package main
+### Line separator is a statement terminator. No need of special characters like ";"
+### Data types
+
+```
+uint8 uint16 uint32 uint64 int8...
+float32 float64 complex64 complex128
+byte == uint8
+rune == int32
+```
+
+### Variable declaration
+
+```
+var i, j, j uint32
+var x = 20.0
+```
+
+### Variable initialization
+
+```
+d = 3, f = 5
+n := 3 ; initialization of n as int and value 3
+```
+
+### Constant
+
+```
+const myvarname int = 32
+```
+
+### Operators: like C
+
+```
+&& || < > <= | ^ -= *= ...
+&myvar -> return the address of a given var
+*var -> pointer to variable
+```
+
+Go allows to work with pointers and references, like C, in the same way
+
+### If, else, else if, switch and select (select is like switch with case statements are channel communications)
+
+```
+switch i {
+       case 1:
+       	    // code
+       case 5, 6, 7:
+       	    // code
+	    ...
+}
+```
+
+### loops
+
+```
+for a := 0; a < 10; a++ {}
+for a < b {}
+for i,x := range numbers {}
+break, continue, goto "statement"
+```
+
+### Functions
+
+```
+func func_name(param1, param2...) return type {
+     // body
+}
+func myfunc(vara int, varb string) int {
+     // code here
+}
+func max(num1, num2 int) int {
+     var result int
+     if(num1 > num2) {
+       result = num1
+     } else {
+       result = num2
+     }
+     return result
+}
+```
+
+### Variadic functions: any number of arguments
+
+```
+func sum(nums ...int) {
+     total := 0
+     for _, num := range nums {
+     	 total += num
+     }
+     fmt.Println(total)
+}
+```
+
+### Lambda funcs
+
+```
+a := func(a, b int) int{
+  return a+b
+}
+a(1,2)
+```
+
+### Closures
+
+```
+func getSequence() func() int {
+     i:=0
+     return func() int {
+     	    i += 1;
+	    return i;
+     }
+}
+```
+
+### Method: special functions called from a given "receiver"
+
+That functions have the following signature:
+func (varname vartype) funcname() returntype {
+...
+}
+where vartype will be the receiver. It's much like methods in a given class on OO programming
+
+```
+type Circle struct {
+   x,y,radius float64
+}
+func(circle Circle) area() float64 {
+   return math.Pi * circle.radius * circle.radius
+}
+circle := Circle{x:0, y:0, radius:5}
+circle.area()
+```
+
+### String: readonly slice of bytes
+
+```
+var greeting = "Hello world"
+stored as bytes, so accessing greeting[1] will output a byte (hex representation = 65)
+```
+
+### String length
+```
+len(myvar)
+```
+
+### "strings" package
+
+join method to join several strings
+
+### Arrays
+
+```
+var varname [SIZE] vartype
+var a[3] int
+```
+
+it allows inline initialization
+
+```
+var b = []float32{1.0, 2.0, 3.1, 4.1, 5.2}
+```
+
+multidimensional arrays
+
+```
+var varname [SIZE1][SIZE2] vartype
+```
+
+### Pointers and references: same as C
+
+```
+var myvar int = 3
+var myvarpointer *int = &myvar
+*myvarpointer = 4
+```
+
+### Structures
+
+```
+type struct_name struct {
+     varname1 vartype
+     varname2 vartype
+     ...
+}
+var myvar strunct_name
+myvar.varname1 = ...
+```
+
+Using pointers, structs must be acceed by "." operator
+
+```
+var myvar1 *struct_name
+...
+myvar1.varname1 = ...
+```
+
+### Slices: flexible arrays
+
+The following slice has 3 members and capacity for 5
+
+```
+var numbers = make([]int, 3)
+var numbers = make([]int,3,5)
+```
+
+Aux functions: len (length) and cap (capacity)
+
+Unspecified size slice
+
+```
+var numbers []int
+```
+
+Initialization
+
+```
+numbers := []int{0,1,2,3,4,5,6,7,8}
+```
+
+This previous slice has len = 9 and cap = 9
+
+Slices allow to use slice notation
+
+```
+numbers[2:4]
+numbers[:5]
+```
+
+Append new items
+
+```
+append(numbers, 1)
+append(numbers, 2,3,4)
+```
+
+Copy one slice to another
+
+```
+copy(numbers1, numbers)
+  copy from last to first (numbers into numbers1). numbers1 must be initialized
+```
+
+### Range: create a sequence of numbers based on an iterable. It returns both 
+
+```
+data := []int{2,4,6,8}
+for i, num:= range data {
+    // here code
+}
+```
+
+### Map: maps unique keys to values
+
+```
+var map_var map[key_data_type]val_data_type
+var mymap map[string]string{"a": "b", "c": "d"}
+var mymap map[string]string
+mymap["first"] = "Mad"
+```
+
+You can test if entry is present
+
+```
+val, ok := mymap["Second"]
+```
+
+To remove an entry, use "delete"
+
+```
+delete(mymap, "first")
+```
+
+### Type casting
+
+```
+var sum int = 3
+var casted float32 = float32(sum)
+```
+
+### Interfaces: named collections of method signatures. Abstraction to use "interface" calls instead of single objects all (in the next example, measure receives geometry instead of rect and circle, so you can define measure once and use with both objects)
+
+```
+type geometry interface {
+    area() float64
+    perim() float64
+}
+type rect struct {
+    width, height float64
+}
+type circle struct {
+    radius float64
+}
+func (r rect) area() float64 {
+    return r.width * r.height
+}
+func (r rect) perim() float64 {
+    return 2*r.width + 2*r.height
+}
+func (c circle) area() float64 {
+    return math.Pi * c.radius * c.radius
+}
+func (c circle) perim() float64 {
+    return 2 * math.Pi * c.radius
+}
+func measure(g geometry) {
+    fmt.Println(g)
+    fmt.Println(g.area())
+    fmt.Println(g.perim())
+}
+func main() {
+    r := rect{width: 3, height: 4}
+    c := circle{radius: 5}
+    measure(r)
+    measure(c)
+}
+```
+
+### Errors: usually returned as last resturn value (Idiomatic)
+
+```
+import "errors"
+func Sqrt(value float64)(float64, error) {
+   if(value < 0){
+      return 0, errors.New("Math: negative number passed to Sqrt")
+   }
+   return math.Sqrt(value)
+}
+result, err:= Sqrt(-1)
+
+if err != nil {
+   fmt.Println(err)
+}
+```
+
+### Common modules: (https://golang.org/pkg/#stdlib)
+
+### goroutine: lightweight thread of execution
+
+```
+func f(from string) {
+     for i := 0; i < 3; i++ {
+     	 fmt.Println(from, ":", i)
+     }
+}
+func main() {
+     f("direct")
+     go f("goroutine")
+     go f("goroutine2")
+     fmt.Println("done")
+}
+```
+
+### channel: pipes that connect concurrent goroutines
+
+  - Creation
+
+```
+messages := make(chan string)
+```
+
+Default channels have no buffering. So they block until a receiver consumes the value
+
+  - Use
+
+```
+go func() {
+   messages <- "ping"
+}()
+msg := <- messages
+fmt.Println(msg)
+```
+
+Buffered channels
+
+```
+messages := make(chan string, 2) // buffered for 2 strings
+```
+
+Sync
+
+Example of a sync until go routing finish
+
+```
+func worker(done chan bool){
+     // do some stuff
+     done <- true
+}
+func main() {
+     done := make(chan bool, 1)
+     go worker(done)
+     <- done
+}
+```
+
+It's possible to define a channel direction in a given function
+
+```
+func f1(chan1 chan<- string) {
+     // code
+}
+
+func f2(chan1 <-chan string) {
+     // code
+}
+```
+
+f1 has chan1 for input and f2 has chan1 for output
+
+Select is used to work with multiple channels. It works like switch
+
+```
+c1 := make(chan string)
+c2 := make(chan string)
+go func() {
+   time.Sleep(time.Second*1)
+   c1 <- "one"
+}()
+go func() {
+   time.Sleep(time.Second*2)
+   c1 <- "two"
+}()
+for i := 0; i < 2; i++ {
+    select {
+    	   case msg1 := <-c1:
+	   	fmt.Println(msg1)
+	   case msg2 := <-c2:
+	   	fmt.Println(msg)2
+    }
+}
+```
+
+Timeouts: used with select to provide a timeout way and discard the channel that has not responded in time
+
+```
+c1 := make(chan string)
+go func() {
+   time.Sleep(time.Second*2)
+   c1 <- "result from func"
+}()
+select {
+       case res := <-c1:
+       	    fmt.Prinln(res)
+       case <-time.After(time.Second*1):
+       	    fmt.Println("TIMEOUT")
+}
+```
+
+Using a default in select allows non-blocking channel operations
+
+```
+select {
+       case res := <- c1:
+       	    	fmt.Println("Success")
+       default:
+		fmt.Println("Fail")
+}
+```
+
+Closing a channel
+
+```
+mychan := make(chan string, 5)
+...
+close(mychan)
+val, more := <- mychan // more is false if channel is closed
+```
+
+We can use range with channels. It's useful to iterate through all values in a channel, until it closes. If channel is empty but open, it blocks until it gets more tokens
+
+```
+queue := make(chan string, 2)
+queue <- "a"
+queue <- "b"
+close(queue)
+for elem := range queue {
+    fmt.Println(elem)
+}
+```
+
+### Timers: execute some code in the future. It provides a channel that will be notified at the time specified.
+
+```
+timer1 := time.NewTimer(time.Second * 2)
+<- timer1.C
+```
+
+it waits 2 seconds and then consume the channel token
+
+### Tickers: used to do something repeatedly at regular intervals
+
+```
+ticker := time.NewTicker(time.Millisecond * 500)
+go func() {
+        for t := range ticker.C {
+            fmt.Println("Tick at", t)
+        }
+    }()
+time.Sleep(time.Millisecond * 1600)
+ticker.Stop()
+```
+
+### Worker pools: just set up goroutines that consume channels and block until new work is attached. Using range, we can achieve that once the channel is closed, worker can finish and end the goroutine
+
+### Rate limiting (used on goroutines, channels and tickers)
+
+channels can be limited by buffering
+
+goroutines can be limited by time package, Tick function
+
+```
+limiter := time.Tick(time.Millisecond * 200)
+<- limiter
+```
+
+Previous code will send a tick through limiter channel once every 200 millisecond.
+
+### Atomic counters: lock structures to manipulate counters through different goroutines
+
+```
+import "sync/atomic"
+
+var ops uint64 = 0
+
+for i := 0; i < 50; i++ {
+	go func() {
+		for {
+			atomic.AddUint64(&ops, 1)
+		}
+	}
+}
+time.Sleep(time.Second*2)
+opsFinal := atomic.LoadUint64(&ops)
+```
+
+### Mutex: generic lock to access data safely across multiple goroutines
+
+```
+import (
+	"sync"
+	"sync/atomic"
+	"time"
+	"math/rand"
+)
+...
+    var state = make(map[int]int)
+	var mutex = &sync.Mutex{}
+	
+    for r := 0; r < 100; r++ {
+        go func() {
+            total := 0
+            for {
+                key := rand.Intn(5)
+                mutex.Lock()
+                total += state[key]
+                mutex.Unlock()
+                time.Sleep(time.Millisecond)
+            }
+        }()
+    }
+```
+
+### Sorting
+
+```
+import "sort"
+...
+strs := []string{"c", "a", "b"}
+sort.Strings(strs)
+...
+ints := []int{5,2,3}
+sort.Ints(ints)
+```
+
+By function
+
+```
+type ByLength []string
+
+func (s ByLength) Len() int {
+    return len(s)
+}
+func (s ByLength) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
+}
+func (s ByLength) Less(i, j int) bool {
+    return len(s[i]) < len(s[j])
+}
+
+func main() {
+    fruits := []string{"peach", "banana", "kiwi"}
+    sort.Sort(ByLength(fruits))
+    fmt.Println(fruits)
+}
+```
+### Panic: abort a program
+
+```
+import "fmt"
+
+func main() {
+	fmt.Println("Before")
+	panic("a problem")
+	fmt.Println("After")
+}
+```
+
+### Defer: ensure that a function is performed later in a program's execution (like finally in other languages)
+
+```
+import "fmt"
+import "os"
+
+func main() {
+	f := createFile("/tmp/defer.txt")
+    defer closeFile(f)
+    writeFile(f)
+}
+func createFile(p string) *os.File {
+    fmt.Println("creating")
+    f, err := os.Create(p)
+    if err != nil {
+        panic(err)
+    }
+    return f
+}
+func writeFile(f *os.File) {
+    fmt.Println("writing")
+    fmt.Fprintln(f, "data")
+}
+func closeFile(f *os.File) {
+    fmt.Println("closing")
+    f.Close()
+}
+```
+
+In the previous example, closeFile will be performed at the end of main() (after writeFile(f))
+
+### String manipulations lie in "strings" package
+
+### String formatting lies in "fmt.Printf" function
+
+
+```
+type point struct {
+    x, y int
+}
+p := point{1, 2}
+fmt.Printf("%v\n", p)
+fmt.Printf("%+v\n", p)
+fmt.Printf("%e\n", 123400000.0)
+...
+```
+
+### Regular expressions lies in "regexp" package
+
+```
+import "regexp"
+match, _ := regexp.MatchString("p([a-z]+)ch", "peach")
+r, _ := regexp.Compile("p([a-z]+)ch")
+r.MatchString("peach")
+```
+
+### JSON
+
+```
+import "encoding/json"
+fltB, _ := json.Marshal(2.34)
+
+byt := []byte(`{"num":6.13,"strs":["a","b"]}`)
+var dat map[string]interface{}
+if err := json.Unmarshal(byt, &dat); err != nil {
+    panic(err)
+}
+```
+
+### Time
+
+Several functions from time package
+
+```
+import "time"
+...
+now := time.Now()
+then := time.Date(2009, 11, 17, 20, 34, 58, 651387237, time.UTC)
+then.Year()
+then.Weekday()
+...
+diff := now.Sub(then)
+diff.Hours()
+diff.Nanoseconds()
+...
+```
+
+To get time from epoch
+
+```
+time.Unix()
+time.UnixNano()
+```
+
+Time parsing / formatting
+
+```
+/* Format t */
+t := time.Now()
+t.Format(time.RFC3339) 
+t.Format("3:04PM")
+t.Format("2006-01-02T15:04:05.999999-07:00")
+
+/* Parse */
+t1, e := time.Parse(
+        time.RFC3339,
+        "2012-11-01T22:08:41+00:00")
+```
+
+### Random
+
+```
+import "math/rand"
+rand.Intn(100)
+rand.Float64()
+```
+
+### Number parsing
+
+```
+import "strconv"
+f, _ := strconv.ParseFloat("1.234", 64)
+d, _ := strconv.ParseInt("0x1c8", 0, 64)
+i, _ := strconv.ParseInt("123", 0, 64)
+u, _ := strconv.ParseUint("789", 0, 64)
+```
+
+### URL parsing
+
+```
+import "net"
+import "net/url"
+...
+s := "http://mydomain.com/path1/path2?arg1=val1"
+u, err := url.Parse(s)
+u.Scheme
+host, port, _ := net.SplitHostPort(u.Host)
+u.Path
+...
+```
+
+### Hashing
+
+```
+import "crypto/sha1"
+h := sha1.New()
+s := "sha1 this string"
+h.Write([]byte(s))
+bs := h.Sum(nil)
+fmt.Println(bs)
+```
+
+### Base64
+
+```
+import "encoding/base64"
+data = "abcd$#"
+enc := base64.stdEncoding.EncodeToString([]byte(data))
+dec_bytes := base64.stdEncoding.DecodeString(enc)
+dec = string(dec_bytes)
+```
+
+### File handling
+
+```
+import "io"
+import "io/ioutil"
+/* Read file in memory */
+dat, err := ioutil.ReadFile("/tmp/dat") 
+/* Read only 5 bytes */
+b1 := make([]byte, 5)
+f, err := os.Open("/tmp/dat")
+n1, err := f.Read(b1)
+/* Always check for errors returned when working with files */
+if err != nil {
+	panic(err)
+}
+/* Change video pointer */
+f.Seek(6, 0)
+/* Buffered reader */
+br := bufio.NewReader(f)
+b4, err := br.Peek(5) /* Readed 5 bytes */
+/* Closing */
+f.Close()
+```
+
+```
+/* WriteFile shortcut */
+d1 := []byte("hello\ngo\n")
+err := ioutil.WriteFile("/tmp/dat1", d1, 0644)
+/* Open and write (both bytes and string) */
+f, err := os.Create("/tmp/dat2")
+d2 := []byte{115, 111, 109, 101, 10}
+n2, err := f.Write(d2)
+n3, err := f.WriteString("writes\n")
+/* Use of buffered writer */
+w := bufio.NewWriter(f)
+n4, err := w.WriteString("buffered\n")
+```
+
+### Command line args
+
+```
+import "os"
+args := os.Args /* Include program name as first argument */
+```
+
+```
+import "flag"
+...
+wordPtr := flag.String("word", "foo", "a string")
+numbPtr := flag.Int("numb", 42, "an int")
+boolPtr := flag.Bool("fork", false, "a bool")
+flag.Parse()
+*wordPtr
+*numbPtr
+*boolPtr
+```
+
+### Env vars
+
+```
+import "os"
+os.Setenv("FOO", 1)
+os.Getenv("BAR")
+```
+
+### Procs
+
+Spawning
+
+```
+import "io/ioutil"
+import "os/exec"
+...
+dateCmd := exec.Command("date")
+dateOut, err := dateCmd.Output()
+...
+grepCmd := exec.Command("grep", "hello")
+grepIn, _ := grepCmd.StdinPipe()
+grepOut, _ := grepCmd.StdoutPipe()
+grepCmd.Start()
+grepCmd.Write([]byte("Hello grep\nbye bye\n"))
+grepIn.Close()
+grepBytes, _ := ioutil.ReadAll(greOut)
+grepCmd.Wait()
+...
+lsCmd := exec.Command("bash", "-c", "ls -a -l -h")
+lsOut, err := lsCmd.Output()
+```
+
+Replacing process by another one (like a fork)
+
+```
+binary, lookErr := exec.LookPath("ls")
+args := []string{"ls", "-a", "-l", "-h"}
+env := os.Environ()
+execErr := syscall.Exec(binary, args, env)
+```
+
+### Signal handling
+
+Handling system signals
+
+```
+import "os/signal"
+import "syscall"
+
+sigs := make(chan os.Signal, 1)
+done := make(chan bool, 1)
+signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+go func() {
+     sig := <-sigs
+     fmt.Println()
+     fmt.Println(sig)
+     done <- true
+}()
+<-done
+```
+
+### Exit
+
+When calling exit, defers will not be run
+
+```
+os.Exit(1)
+```
+
+### Interesting links
+
+https://golang.org/cmd/
+https://golang.org/pkg/#stdlib
+
