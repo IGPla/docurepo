@@ -911,8 +911,120 @@ When calling exit, defers will not be run
 os.Exit(1)
 ```
 
+### GO projects
+
+- A tipical GO workspace contains the following folders:
+  - src (source files)
+  - pkg (package objects)
+  - bin (executable commands=
+- go tool builds source packages and installs the resulting binaries to the pkg and bin directories
+- src directory tipically contains version control repositories
+- So 1 workspace for all GO projects, and 1 subfolder under src for every GO project
+- GOPATH env var specifies your workspace directory
+
+```
+export GOPATH=$(go env GOPATH)
+```
+
+- For convenience, add workspace's bin directory to PATH
+
+```
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
+- Import path: base path for a package in src. Must be unique to prevent collisions.
+- To create a binary, just use go install relateive/to/src/path/to/your/package
+
+```
+mkdir $GOPATH/src/github.com/user/hello
+```
+
+```
+go install github.com/user/hello
+```
+
+or
+
+```
+cd $GOPATH/src/github.com/user/hello
+go install
+```
+
+- To write a library, just add a new project in src, and use go build instead of go install
+
+```
+package stringutil
+
+func Reverse(s string) string {
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
+}
+```
+
+```
+go build github.com/user/stringutil
+```
+
+```
+import "github.com/user/stringutil"
+...
+stringutil.Reverse("my string")
+```
+
+- Go convention is that package name is the last element of the import path
+
+- Executable commands must always use package main
+
+### Testing
+
+- Just create a filename ending in _test.go
+- To create a test file for the previous stringutil library
+
+stringutils_test.go in the same folder
+
+```
+package stringutil
+
+import "testing"
+
+func TestReverse(t *testing.T) {
+	cases := []struct {
+		in, want string
+	}{
+		{"Hello, world", "dlrow ,olleH"},
+		{"Hello, 世界", "界世 ,olleH"},
+		{"", ""},
+	}
+	for _, c := range cases {
+		got := Reverse(c.in)
+		if got != c.want {
+			t.Errorf("Reverse(%q) == %q, want %q", c.in, got, c.want)
+		}
+	}
+}
+```
+
+To test it
+
+```
+go test github.com/user/stringutil
+```
+
+### Remote packages
+
+- Go can work with remote packages (ie the ones that exists in a remote repository for example).
+
+```
+go get github.com/golang/example/hello
+$GOPATH/bin/hello
+```
+
 ### Interesting links
 
 https://golang.org/cmd/
+
 https://golang.org/pkg/#stdlib
 
