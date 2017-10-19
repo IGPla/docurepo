@@ -1022,6 +1022,24 @@ go get github.com/golang/example/hello
 $GOPATH/bin/hello
 ```
 
+### Sync goroutines
+
+The best way to sync goroutines (to wait until all them finish) is to use WaitGroup
+
+```
+import "sync"
+
+var waitgroup sync.WaitGroup
+
+waitgroup.Add(1)
+go func(){
+	defer waitgroup.Done()
+	....
+}()
+...
+waitgroup.Wait()
+```
+
 ### Interesting links
 
 https://golang.org/cmd/
