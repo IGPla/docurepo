@@ -193,7 +193,15 @@ var myvarpointer *int = &myvar
 *myvarpointer = 4
 ```
 
-### Structures
+"new" keyword allows to create a new pointer
+
+```
+x_ptr := new(int)
+```
+
+It allways create the variable and returns a pointer, even with structs
+
+### Structs
 
 ```
 type struct_name struct {
@@ -273,7 +281,7 @@ for i, num:= range data {
 ```
 var map_var map[key_data_type]val_data_type
 var mymap map[string]string{"a": "b", "c": "d"}
-var mymap map[string]string
+var mymap make(map[string]string)
 mymap["first"] = "Mad"
 ```
 
@@ -1039,6 +1047,121 @@ go func(){
 ...
 waitgroup.Wait()
 ```
+
+### Getting help
+
+To get help about a package or a given function, use godoc
+
+```
+godoc fmt Println
+```
+
+The previous example prints information about Println function in fmt package
+
+### Common packages / common functions
+
+#### Strings
+
+```
+import "strings"
+
+strings.Contains("test", "es")
+strings.HasPrefix("test", "te")
+strings.Count("test", "t")
+strings.Index("test", "s")
+strings.Replace("aaaa", "a", "b", 2)
+```
+
+#### Files
+
+```
+# Common case: open, read and close
+import "os"
+
+# Open file
+file, err := os.Open("myfile.txt")
+if err != nil {
+	...
+}
+# Defer file close
+defer file.Close()
+# Get file information
+stat, err := file.Stat()
+# Read the file
+bs := make([]byte, stat.Size())
+_, err = file.Read(bs)
+str := string(bs)
+```
+
+```
+# Shorter way
+import "io/ioutil"
+
+bs, err := ioutil.ReadFile("myfile.txt")
+str := string(bs)
+```
+
+```
+# Create file
+import "os"
+
+file, err := os.Create("myfile.txt")
+defer file.Close()
+file.WriteString("test")
+```
+
+```
+# Get contents of a directory
+import "os"
+
+dir, err := os.Open(".")
+defer dir.Close()
+fileInfos, err := dir.Readdir(-1)
+for _, fi := range fileInfos {
+	...
+}
+```
+
+```
+# Recursive walk a folder
+import "os"
+import "path/filepath"
+
+filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
+	...
+})
+```
+
+#### Errors
+
+Go has a built-in error type. We can create new ones.
+
+```
+import "errors"
+
+err := errors.New("error message")
+```
+
+#### Other collections
+
+Under "container" package, there are several containers like "list" (double-linked list)
+
+```
+import "container/list"
+
+var mylist list.List
+mylist.PushBack(10)
+...
+for e := mylist.Front(); e != nil; e = e.Next() {
+	...
+}
+```
+
+#### Sort
+
+Sort package allows to sort arbitrary data.
+
+
 
 ### Interesting links
 
