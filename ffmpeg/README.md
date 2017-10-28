@@ -67,7 +67,7 @@ Merges channel 0 from stream 0 (source.mp4) and channel 0 from stream 1 (source.
 ### Tune common params
 
 ```
-ffmpeg -i source.mp4 -c:v h264 -b:v 128k -c:a aac -b:a 98k output.mp4
+ffmpeg -i source.mp4 -c:v libx264 -b:v 128k -c:a aac -b:a 98k output.mp4
 ```
 
 Common video params (codec and bitrate) can be tuned with params -c:v and -b:v. Common audio params (codec and bitrate) can be tuned with params -c:a and -b:a. 
@@ -75,7 +75,7 @@ Common video params (codec and bitrate) can be tuned with params -c:v and -b:v. 
 ### Tune params on channels
 
 ```
-ffmpeg -i source.mp4 -map 0:0 -map 0:1 -map 0:2 -c:v h264 -b:v 1000k -c:a aac -b:a:0 100k -b:a:1 200k output.mp4
+ffmpeg -i source.mp4 -map 0:0 -map 0:1 -map 0:2 -c:v libx264 -b:v 1000k -c:a aac -b:a:0 100k -b:a:1 200k output.mp4
 ```
 
 In this example, it takes a source.mp4 with single video channel and 2 audio channels. It maps both audio channels to be transcoded, with the same codec, but with different bitrates
@@ -122,3 +122,30 @@ ffmpeg -i source.mp4 -ss 00:30 -to 00:50 dest.mp4
 
 Same as above, but controlling absolute timings
 
+### Concatenate
+
+```
+ffmpeg -f concat -safe 0 -i concat_list.txt -c copy dest.mp4
+```
+
+The content of concat_list.txt as example
+
+```
+file './videos/vid1.mp4'
+file './videos/vid2.mp4'
+file './videos/vid3.mp4'
+```
+
+Concatenates all files in your concatenation list into a new file 
+
+### libx264
+
+This is a common encoder. It should be set (c:v libx264) with a preset option, telling which quality is desired
+
+```
+ffmpeg -i source.mp4 -v:c libx264 -preset veryfast dest.mp4
+```
+
+Possible preset options: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
+
+A preset is simply a collection of options that provide a certain encoding speed to compression ratio. Slower preset will provide better compression (quality per filesize). It means that if you target a certain file size or constant bit rate, you will achieve better compression with a slower preset.
