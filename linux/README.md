@@ -40,3 +40,20 @@ Screen is a really useful command that will allow us to detach a given tty to ru
 
 - C-a esc: enter the copy mode (useful to scroll up and down)
 - C-a ?: show help
+
+## ZSH shell
+
+### Install
+
+apt-get install zsh -y
+
+### Configure
+
+use oh-my-zsh to configure it.
+
+- Add zsh as your shell (edit /etc/passwd)
+- curl -L http://install.ohmyz.sh | sh
+- Edit ~/.zshrc and tune your shell (themes, plugins...)
+
+More info in https://github.com/robbyrussell/oh-my-zsh
+
