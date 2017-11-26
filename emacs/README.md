@@ -52,3 +52,8 @@
 * Go
   * package -> go-mode
   
+* File tree
+  * package -> sr-speedbar
+  * Common commands:
+    * sr-speedbar-open: open speedbar in a window
+	* sr-speedbar-close: close speebar
