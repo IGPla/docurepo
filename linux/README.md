@@ -133,3 +133,12 @@ If you want that customization works for all users, put it in
 /etc/bash.bashrc
 
 This file holds the default for bash users.
+
+## SSH
+
+- To prevent users from authenticating by user/password
+
+```
+Match all
+PasswordAuthentication no
+```
