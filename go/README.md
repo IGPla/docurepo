@@ -1,5 +1,19 @@
 # Go lang
 
+## Tools
+
+```
+go COMMAND PARAMS
+```
+
+- fmt: format syntax content in all sources in a given package
+- doc: documents a project, based on comments in each source
+
+
+## Comments
+
+Like the ones in python, comments can be used to document code. It accepts C-like comments (// and /**/). Comments preceding top-level declarations will be used as documentation by godoc
+
 ### Base doc: https://golang.org
 ### Program structure
 
@@ -1160,6 +1174,184 @@ for e := mylist.Front(); e != nil; e = e.Next() {
 #### Sort
 
 Sort package allows to sort arbitrary data.
+
+#### Hashes and cryptography
+
+- non-cryptographic
+  - adler32, crc32, crc64, fnv
+  
+```
+import "hash/crc32"
+
+h := crc32.NewIEEE()
+h.Write([]byte("test"))
+v := h.Sum32()
+```
+
+- cryptographic
+
+```
+import "crypto/sha1"
+
+h := sha1.New()
+h.Write([]byte("test"))
+v := h.Sum([]byte{})
+```
+
+#### TCP Server
+
+```
+import (
+  "encoding/gob"
+  "fmt"
+  "net"
+)
+
+func server() {
+  // listen on a port
+  ln, err := net.Listen("tcp", ":9999")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+  for {
+    // accept a connection
+    c, err := ln.Accept()
+    if err != nil {
+      fmt.Println(err)
+      continue
+    }
+    // handle the connection
+    go handleServerConnection(c)
+  }
+}
+
+func handleServerConnection(c net.Conn) {
+  // receive the message
+  var msg string
+  err := gob.NewDecoder(c).Decode(&msg)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println("Received", msg)
+  }
+
+  c.Close()
+}
+
+func client() {
+  // connect to the server
+  c, err := net.Dial("tcp", "127.0.0.1:9999")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  // send the message
+  msg := "Hello World"
+  fmt.Println("Sending", msg)
+  err = gob.NewEncoder(c).Encode(msg)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  c.Close()
+}
+
+func main() {
+  go server()
+  go client()
+
+  var input string
+  fmt.Scanln(&input)
+}
+```
+
+#### HTTP Server
+
+```
+import ("net/http" ; "io")
+
+func hello(res http.ResponseWriter, req *http.Request) {
+  res.Header().Set(
+    "Content-Type",
+    "text/html",
+  )
+  io.WriteString(
+    res,
+    `<DOCTYPE html>
+<html>
+  <head>
+      <title>Hello World</title>
+  </head>
+  <body>
+      Hello World!
+  </body>
+</html>`,
+  )
+}
+func main() {
+  http.HandleFunc("/hello", hello)
+  http.ListenAndServe(":9000", nil)
+}
+```
+
+#### RPC Server
+
+```
+import (
+  "fmt"
+  "net"
+  "net/rpc"
+)
+
+type Server struct {}
+func (this *Server) Negate(i int64, reply *int64) error {
+  *reply = -i
+  return nil
+}
+
+func server() {
+  rpc.Register(new(Server))
+  ln, err := net.Listen("tcp", ":9999")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+  for {
+    c, err := ln.Accept()
+    if err != nil {
+      continue
+    }
+    go rpc.ServeConn(c)
+  }
+}
+func client() {
+  c, err := rpc.Dial("tcp", "127.0.0.1:9999")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+  var result int64
+  err = c.Call("Server.Negate", int64(999), &result)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println("Server.Negate(999) =", result)
+  }
+}
+func main() {
+  go server()
+  go client()
+
+  var input string
+  fmt.Scanln(&input)
+}
+```
+
+#### Database drivers
+
+continue from http://go-database-sql.org/importing.html
 
 
 
