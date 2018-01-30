@@ -61,6 +61,12 @@ n := 3 ; initialization of n as int and value 3
 const myvarname int = 32
 ```
 
+### make vs new
+
+- new allocates "zeroed" storage for a new item of type T. Useful for pointer definition and initiallization afterwards. It returns a pointer.
+- make only works for slices, maps and channels. It initializes a new object, and returns it (not a pointer)
+
+
 ### Operators: like C
 
 ```
