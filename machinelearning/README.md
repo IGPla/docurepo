@@ -154,10 +154,94 @@ A simple but powerful example of feature engineering is the "One hot encoding". 
 ### Classification concepts
 
 - Multiclass classification: classification normally operates on one class. It labels the data as it seems to be of the class or not. For the majority of problems, classification must be applied on a set of classes (more than one). Then, classifiers must operate as One vs rest. This approach is simple: classifier will be ran N times (one for each class) and will classify each instance against each class.
+- Try to find parameters w and b (w = weights, b = bias) to optimize your algorithm and get the best accuracy on your predicted labels
+- Cost function : check how well your algorithm performs on training set (J(w, b) = -1/m sum(L(^yi, yi)))
+  - Loss function: check how well your algorithm performs with one single sample (L(^y, y))
+  - Available cost functions: 
+    - square error (^y - y)^2 (not a good choice for gradient descent)
+    - better approach: -(y-log(^y) + (1-y) log(1 - ^y))
+- Gradient descent: algorithm used to improve the performance of our learning algorithm (try to find the global minimum on overall cost function)
+  - Repeat 
+    - { w := w - alpha * (dJ(w, b) / d(w) )} // d is derivative
+    - { b := b - alpha * (dJ(w, b) / d(b) )}
+  - alpha is the learning rate
+  - as higher slope in the curve of J function, higher derivative, so larger change on w vector
+- Common steps:
+  - Initialize w and b to random parameters
+  - Apply the cost function
+  - Apply gradient descent with the results of the last point to find next step towars global minimum
+  - Repeat until convergence appears
+
+## Backwards propagation
+
+Given some operations chained, derivative of n operation is affected by the result of n-1. Let's see an example from a computing graph
+
+
+a
+-------------- v = a + u
+b
+ --- u = bc
+c
+
+----------------------------- J = 3v
+
+Given the previous computational graph, and the following values
+a = 5
+b = 3
+c = 2
+
+We can see that u = 6, v = 11 and J = 33
+
+So to compute d(J) / d(v), we can calculate the minimal increment
+
+v = 11 ---- 11.001
+J = 33 ---- 33.003
+
+Then, d(J) / d(v) = 3
+
+When we want to calculate d(J) / d(a). Again, let's do the minimal increment
+
+a = 5 ---- 5.001
+v = 11 ---- 11.001
+J = 33 ---- 33.003
+
+As it can be seen, d(J) / d(a) = 3.
+
+It is calculated by the chain rule
+
+d(J) / d(a) = 3 = (d(J) / d(v)) * (d(v) / d(a))
+                = 3 * 1 
+
+Now, lets calculate d(J) / d(u)
+
+u = 6 --- 6.001
+v = 11 ---- 11.001
+J = 33 ---- 33.003
+
+then d(J) / d(u) = 3 = (d(J) / d(v)) * (d(v) / d(u))
+
+d(J) / d(b)
+
+b = 3 ---- 3.001
+u = 6 ---- 6.002
+v = 11 ---- 11.002
+J = 33 ---- 33.006
+
+d(J) / d(b) = 6 = (d(J) / d(u)) * (d(u) / d(b)
+                =  3 * 2
+
+
+* Convention: in code, usually use dvar to denote derivative ultimate variable (d(J)), and the partials will be writen as, for example for variable a, da
+
+So da = d(J) / d(a) for example 
 
 #### Logistic regression concepts
 
 - Performs really well on linearly separable datasets
+- Formula: sigma(z) = 1 / (1 + e ^ -z)
+  - This function is suitable for classification (class = 1, non class = 0) because it plots every value of z to a 0 - 1 range
+  - Where z is usually w^T * x + b
+  - Alternatively, z = w^T * x, with X0 = 1 (really, X0 is b and is inserted in w)
 
 #### SVM concepts
 
