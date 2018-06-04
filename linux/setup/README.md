@@ -1,5 +1,31 @@
 # Setup tricks and tips
 
+## Acer Preadtor Helios 300
+
+### Linux flavour install
+
+- Shrink windows partition (to desired space for your linux distribution)
+- Make bootable stick with GPT/FAT32 (hint: use Rufus)
+- Reset and enter BIOS (press F2 on boot)
+- Disable secure boot
+- Enable boot manager (F12)
+- Save BIOS and reboot
+- Introduce your linux stick into your left USB port
+- Tap F12 to view boot manager
+- Select boot from usb
+- Install your linux distribution
+- Restart
+- Remove usb stick
+- Press F2 to enter BIOS again
+- Re-enable secure boot
+- Under secure boot settings, select your new linux UEFI file to boot (HDDD -> EFI -> ubuntu -> grubx64.efi)
+- Select ubuntu as the first one to boot (this will be enable grub to allow you to choose between ubuntu and windows installation)
+- Save and restart
+- Boot into windows to check that system still works
+- Restart
+- You can now enter your new linux distribution :D
+
+
 ## Debian
 
 ### Drivers
