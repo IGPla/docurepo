@@ -1,5 +1,11 @@
 # EMACS
 
+## Useful commands
+
+- C-x C-; -> Comment / uncomment current line or current selected region
+
+## Config
+
 * All config should go into ~/.emacs.d/init.el
 * Add melpa package index. Config:
 
