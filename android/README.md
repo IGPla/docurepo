@@ -6,6 +6,14 @@ This README contains all notes and code snippets that are useful to develop andr
 
 - Change "android" view by "project" view in android studio tree view
 - In the design view (layout), change app theme by "AppCompat.light.NoActionBar" to remove the top title on your application
+- Keep your activities safe from phone orientation changes. If no orientation changes should be accepted, type the following in your manifest (example is for portrait, you can change it to landscape if needed)
+
+```
+<activity
+    android:name=".YourActivityName"
+    android:screenOrientation="portrait">
+</activity>
+```
 
 ## Android studio util shortcuts
 
@@ -44,3 +52,4 @@ Dexter.withActivity(this)
                     }
                 }).check();
 ```
+
