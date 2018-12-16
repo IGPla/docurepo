@@ -1,65 +1,28 @@
 # EMACS
 
-## Useful commands
+## Useful resources
 
+- Comprehensive list of emacs packages
+https://github.com/emacs-tw/awesome-emacs
+
+## Useful packages
+
+- go-mode: go mode
+- auto-complete: autocomplete mode
+- go-autocomplete: go bindings for autocomplete mode
+- material-theme: material theme
+- elpy: base package for enhanced python functionality
+- flycheck: check python scripts for common errors (syntax)
+- py-autopep8: apply pep8 rules
+- sr-speedbar: speedbar (tree view) integration in the same window
+- flymd: flymd-flyit command to view your markdown file into your default browser
+- markdown-mode: useful mode to write markdown files
+- json-mode: useful mode to edit json files
+
+## Util Commands
+
+- M-x sr-speedbar-toogle: open/close speedbar tree view
+- M-x compile: run compile command
+- M-x flymd-flyit: view your markdown file in your browser
+- M-; : comment/uncomment the selected region
 - C-x C-; -> Comment / uncomment current line or current selected region
-
-## Config
-
-* All config should go into ~/.emacs.d/init.el
-* Add melpa package index. Config:
-
-```
-(require 'package)
-(add-to-list 'package-archives
-       '("melpa" . "http://melpa.org/packages/") t)
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
-```
-
-* Commands
-  * M-x list-packages -> list packages and allows to install them
-  * M-x hs-minor-mode / M-x hs-hide-all / M-x hs-show-all -> code folding
-* Markdown
-  * Package -> markdown-mode
-  * Install a markdown system package (markdown)
-  * C-c C-c l to activate live preview
-  * [More info](https://jblevins.org/projects/markdown-mode/)
-* Python
-  * elpy: powerful editor for emacs
-    * Useful packages: ipython, jedi, rope, importmagic, autopep8, yapf, flake8
-    * Install / config
-	
-```
-(defvar myPackages
-  '(better-defaults
-    elpy
-    flycheck
-    material-theme
-    py-autopep8))
-(mapc #'(lambda (package)
-    (unless (package-installed-p package)
-      (package-install package)))
-      myPackages)
-	  
-(setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'material t) ;; load material theme
-(global-linum-mode t) ;; enable line numbers globally
-(elpy-enable)
-(elpy-use-ipython)
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-```
-	
-* Go
-  * package -> go-mode
-  
-* File tree
-  * package -> sr-speedbar
-  * Common commands:
-    * sr-speedbar-open: open speedbar in a window
-	* sr-speedbar-close: close speebar
