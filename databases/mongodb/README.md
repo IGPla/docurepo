@@ -40,6 +40,71 @@ _id is a 12 bytes hexadecimal number, unique for every document in a collection.
 
 All starts with db.mycollections.find. It receives a dictionary with all conditions and outputs a list of matching documents
 
+### Agg
+
+#### Pipeline
+
+Pipeline will work in ordered way, as defined. Take it into account to define a well path of aggregation (for example, filter before sort to get faster results)
+
+db.collection.aggregate(...)
+
+Main available parameters (more information in https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/)
+
+- $match: match fields and values
+- $limit: limits the number of documents
+- $count: return the number of documents
+- $group: group documents by a field
+- $out: write the results into a collection
+- $project: reshapes each document in the stream, adding/removing fields
+- $sort: sort results by field
+
+Examples:
+
+We will use the following collection (named mycollection) to demonstrate aggregations
+
+```
+{
+	"my_id_field": "A1",
+	"field1": 200,
+	"field2": "Ac"
+},
+{
+	"my_id_field": "A1",
+	"field1": 400,
+	"field2": "Rj"
+},
+{
+	"my_id_field": "A2",
+	"field1": 100,
+	"field2": "Rj"
+},
+{
+	"my_id_field": "A1",
+	"field1": 300,
+	"field2": "Rj"
+}
+```
+
+```
+db.mycollection.aggregate([
+	{$match: {field2: "Rj"}},
+	{$group: {_id: "$my_id_field", mytotal: {$sum: $field1}}
+]) 
+
+Results are:
+
+{
+	"_id": "A1",
+	"mytotal": 700
+},
+{
+	"_id": "A2",
+	"mytotal": 100
+}
+
+```
+
+
 ## Replication
 
 Replication allows MongoDB to create an environment of high availability. It synchronizes data across multiple servers, providing redundancy and data availability. It is called "Replica sets" in MongoDB. In replica sets, one node is the primary and the others are secondaries. All data replicates from primary to secondaries. When a primary fails, election establishes a new primary. After the failed node recovers, it joins again to the replica set and works as a secondary node. 
