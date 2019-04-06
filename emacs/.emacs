@@ -13,7 +13,7 @@
    t))
 
 ;; Install base packages
-(setq package-list '(go-mode exec-path-from-shell auto-complete go-autocomplete material-theme elpy flycheck py-autopep8 ein sr-speedbar flymd markdown-mode json-mode))
+(setq package-list '(better-defaults go-mode exec-path-from-shell auto-complete go-autocomplete material-theme elpy flycheck py-autopep8 ein sr-speedbar flymd markdown-mode json-mode yaml-mode))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -41,6 +41,10 @@
 (custom-set-variables
  '(speedbar-show-unknown-files t)
 )
+
+;; Show column number
+(setq column-number-mode t)
+
 
 ; Python config
 
