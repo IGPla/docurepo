@@ -2,9 +2,62 @@
 
 Kubernetes is an orchestraction software to scale your app environment through a containerization process (mainly used with docker).
 
+## Install kubectl
+
+```
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+```
+
+```
+kubectl cluster-info
+```
+
+To add command completion
+
+```
+kubectl completion bash > /etc/bash_completion.d/kubectl
+```
+
 ## Deployment
 
 minikube is a development version for kubernetes. It's really useful to deploy a local kubernetes single-node cluster and test your environment.
+
+
+### Install minikube
+
+```
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
+sudo cp minikube /usr/local/bin && rm minikube
+```
+
+### Install virtualbox
+
+Virtualbox is one of the two available ways to run minikube (the other one is to install KVM)
+
+```
+sudo apt-get update && sudo apt-get upgrade
+sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian stretch contrib"
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install virtualbox-6.0
+```
+
+### Run minikube
+
+```
+minikube start
+```
+
+To run minikube dashboard
+
+```
+minikube dashboard
+```
 
 https://github.com/kubernetes/minikube
 
