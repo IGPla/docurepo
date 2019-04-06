@@ -13,23 +13,32 @@ Tmux is a terminal multiplexer. It allows you to work in a project with differen
 
 - Session
   - Start a new session
+  
 ```
 tmux
 tmux new -s <session name> # To start a named session
 ```
-- Rename session
+
+  - Rename session
+
 ```
 tmux rename-session -t 0 <new session name>
 ```
-- Detach a session
+
+  - Detach a session
+
 ```
 C-b d
 ```
-- List sessions
+
+  - List sessions
+
 ```
 tmux ls
 ```
-- Attach to a detached session
+
+  - Attach to a detached session
+
 ```
 tmux attach -t <session number>
 tmux attach -t <session name>
@@ -37,54 +46,89 @@ tmux attach -t <session name>
 
 - Panes
   - Split panes horizontally
+  
 ```
 C-b %
 ```
+
   - Split panes vertically
+  
 ```
 C-b "
 ```
+
   - To move to another pane
+  
 ```
 C-b <arrow key>
 ```
+
   - Close pane
+  
 ```
 exit (or C-d)
 ```
+
   - Full screen / shrink again
+  
 ```
 C-b z
 ```
+
   - Resize pane
+  
 ```
 C-b C-<arrow key>
 ```
 
 - Windows
   - New window
+  
 ```
 C-b c
 ```
+
   - Switch to previous window
+  
 ```
 C-b p
 ```
+
   - Switch to next window
+  
 ```
 C-b n
 ```
+
   - Switch to n window
+  
 ```
 C-b <window number>
 ```
+
   - Rename the current window
+  
 ```
 C-b ,
 ```
 
+- Extra options
+
+  - To activate scroll mode
+
+```
+C-b [
+```
+
+  - To deactivate scroll mode
+
+```
+q
+```
+
 - Help
   - Get commands list
+  
 ```
 C-b ?
 ```
