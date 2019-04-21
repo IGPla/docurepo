@@ -23,14 +23,14 @@ Here you can find the list of topics
 
 #### Design patterns
 
-- [Design patterns](architecture/design patterns/designpatterns.md)
-- [Domain Driven Design](architecture/design patterns/domain_driven_design.md)
-- [Event Loop](architecture/design patterns/event_loop.md)
-- [SOLID](architecture/design patterns/solid.md)
+- [Design patterns]("architecture/design patterns/designpatterns.md")
+- [Domain Driven Design]("architecture/design patterns/domain_driven_design.md")
+- [Event Loop]("architecture/design patterns/event_loop.md")
+- [SOLID]("architecture/design patterns/solid.md")
 
 #### Monitoring
 
-- [SOLID](architecture/monitoring/prometheus.md)
+- [Prometheus](architecture/monitoring/prometheus.md)
 
 ### Databases
 
