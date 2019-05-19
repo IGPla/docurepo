@@ -221,3 +221,20 @@ Here lies a useful (although not comprehensive) list of parameters:
 - -a: pass any arguments to the module 
 - -m: module to be called
 - --ask-vault-pass: prompt with vault pass (only useful if we have files encrypted with vault)
+
+
+### Configuration
+
+There are 4 ways to add configuration to your project:
+
+- ANSIBLE_CONFIG environment variable
+- ansible.cfg (in the current directory)
+- .ansible.cfg (in the home directory)
+- /etc/ansible/ansible.cfg
+
+Example of available configuration
+
+```
+[defaults]
+remote_user=myuser
+```
