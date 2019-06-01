@@ -147,6 +147,23 @@ sudo rm /var/run/suricata.pid
 
 And restart again
 
+## Fail2ban
+
+Focused on attacks detected, it bans the ips that perform them. Logs based
+
+### Install
+
+```
+apt-get install fail2ban
+```
+
+### Configure
+
+- File location: /etc/fail2ban/fail2ban.conf (or fail2ban.local for overrides)
+- Logs are located in /var/log/fail2ban.log
+- /etc/fail2ban/jail.local will be used to configure white list, ban times, retry amounts and which services to log (by default, only ssh)
+
 ## SELinux
 
 TODO
+
