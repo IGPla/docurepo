@@ -26,3 +26,13 @@ https://github.com/emacs-tw/awesome-emacs
 - M-x flymd-flyit: view your markdown file in your browser
 - M-; : comment/uncomment the selected region
 - C-x C-; -> Comment / uncomment current line or current selected region
+- To remove the first n characters of a selected block
+```
+# Select block with c-space and move to the n character of the last line
+M-x kill-rectangle (same functionality with C-x r k)
+```
+- To add a character (or several ones) in a selected block (very useful to comment several lines)
+```
+# Select block with c-space and move to the first character of the last line
+M-x string-insert-rectangle -> character (or characters) to be inserted
+```

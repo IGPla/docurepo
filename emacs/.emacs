@@ -12,6 +12,15 @@
    '("melpa" . "http://melpa.milkbox.net/packages/")
    t))
 
+;; Set temp files folder
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+
 ;; Install base packages
 (setq package-list '(better-defaults go-mode exec-path-from-shell auto-complete go-autocomplete material-theme elpy flycheck py-autopep8 ein sr-speedbar flymd markdown-mode json-mode yaml-mode))
 (package-initialize)
