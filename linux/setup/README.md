@@ -257,12 +257,20 @@ XorgConfFile=/etc/bumblebee/xorg.conf.nouveau
 
 Note: each option that provides paths should be adapted to your system. Check the previous configuration on your bumblebee.conf file and copy them from there
 
-6. Create the following script (it will work after restart): nvidia_on.sh 
+6. Create the following script (it will work after restart): nvidia\_on.sh  and place it in /usr/local/bin/nvidia\_on.sh
 
 ```
 #!/bin/bash
-optirun true
-intel-virtual-output -f
+SERVICE="intel-virtual"
+if pgrep "$SERVICE" >/dev/null
+then
+    echo "$SERVICE is running"
+else
+    echo "$SERVICE is not running. Starting service..."
+    optirun true
+    intel-virtual-output -f 
+fi
+
 ```
 
 7. Create the following script: nvidia_off.sh
@@ -272,5 +280,20 @@ intel-virtual-output -f
 rmmod nvidia_drm; rmmod nvidia_modeset; rmmod nvidia; /etc/init.d/bumblebee restart ; cat /proc/acpi/bbswitch 
 ```
 
-8. Restart
-9. After restart, you can run (with superuser rights) the nvidia_on\.sh script, and your second monitor will start working. When you want to turn off it, just cntrl+c your current script and run nvidia_off\.sh to turn off your nvidia card (saving power resources)
+8. Install "sudo" package
+```
+aptitude install sudo -y
+```
+
+9. Add sudo NOPASSWD directive for this command
+```
+su
+echo "isaac ALL = (root) NOPASSWD: /usr/local/bin/nvidia_on.sh" >> /etc/sudoers
+```
+
+10. Add the line below in your startup launcher (in Mate, System -> Preferences -> Personal -> Startup applications)
+```
+sudo /usr/local/bin/nvidia_on.sh
+```
+
+11. Restart
