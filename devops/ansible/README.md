@@ -238,3 +238,9 @@ Example of available configuration
 [defaults]
 remote_user=myuser
 ```
+
+### Resources
+
+You can find an endless list of different ansible roles in the following site
+
+https://galaxy.ansible.com
