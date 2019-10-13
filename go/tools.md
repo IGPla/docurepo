@@ -143,6 +143,14 @@ To use
 golint ./...
 ```
 
+### Online checker
+
+A tool that runs different linters and checkers against a repository 
+
+```
+https://goreportcard.com
+```
+
 ## Go extra tools
 
 Standard Golang github account holds supplementary tools and libraries
