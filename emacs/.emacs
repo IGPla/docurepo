@@ -3,6 +3,21 @@
 ;; Fullscreen
 (toggle-frame-maximized)
 
+;; Activate hs minor mode for all major modes
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+
+;; Font size
+(set-face-attribute 'default nil :height 110)
+
+;; Set bash as default shell
+(setq explicit-shell-file-name "/bin/bash")
+
+;; Backup files
+(setq backup-directory-alist
+      `((".*" ., temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" , temporary-file-directory t)))
+
 ;; load emacs 24's package system. Add MELPA repository.
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -107,4 +122,8 @@
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'auto-complete-for-go)
 
+;; Code folding shortcuts
+(global-set-key (kbd "C-1") 'hs-hide-all) ; Cntr+1
+(global-set-key (kbd "C-2") 'hs-show-all) ; Cntr+2
+(global-set-key (kbd "C-3") 'hs-show-block) ; Cntr+3
 
