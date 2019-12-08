@@ -37,7 +37,7 @@
   )
 
 ;; Install base packages
-(setq package-list '(better-defaults go-mode exec-path-from-shell auto-complete go-autocomplete material-theme elpy flycheck py-autopep8 ein sr-speedbar flymd markdown-mode json-mode yaml-mode))
+(setq package-list '(better-defaults go-mode exec-path-from-shell auto-complete go-autocomplete material-theme elpy flycheck py-autopep8 ein sr-speedbar flymd markdown-mode json-mode yaml-mode dockerfile-mode docker-compose-mode))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
