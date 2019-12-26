@@ -277,7 +277,7 @@ fi
 
 ```
 #!/bin/bash
-rmmod nvidia_drm; rmmod nvidia_modeset; rmmod nvidia; /etc/init.d/bumblebee restart ; cat /proc/acpi/bbswitch 
+killall intel-virtual-output
 ```
 
 8. Install "sudo" package
